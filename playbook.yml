@@ -1,0 +1,35 @@
+---
+- hosts: localhost
+  roles:
+    - role: patrickjahns.promtail
+      vars:
+        promtail_loki_server_url: http://loki.deleng.isp.starsops.com:3100
+        promtail_config_scrape_configs:
+          - job_name: syslog
+            static_configs:
+            - targets:
+                - localhost
+              labels:
+                job: syslog
+                __path__: /var/log/syslog
+          - job_name: authlog
+            static_configs:
+            - targets:
+                - localhost
+              labels:
+                job: authlog
+                __path__: /var/log/auth.log
+          - job_name: nginxaccesslog
+            static_configs:
+            - targets:
+                - localhost
+              labels:
+                job: nginxaccesslog
+                __path__: /var/log/nginx/access.log
+          - job_name: nginxerrorlog
+            static_configs:
+            - targets:
+                - localhost
+              labels:
+                job: nginxerrorlog
+                __path__: /var/log/nginx/error.log
